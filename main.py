@@ -14,6 +14,7 @@ load_dotenv()
 
 app = FastAPI()
 
+# Mounting  static .html & .css files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
