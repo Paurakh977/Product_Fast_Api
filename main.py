@@ -1,8 +1,13 @@
 from fastapi import FastAPI
 from models import Product
+from database import session, engine
+import database_models
+
 
 app = FastAPI()
 
+
+database_models.Base.metadata.create_all(bind=engine)
 @app.get("/")
 async def greet():
     return {"Hello": "World"}
@@ -15,6 +20,12 @@ products = [
 
 @app.get("/products")
 async def get_products():
+    #db connect garne : 
+    db = session()
+    # query garne 
+    db.query()
+
+
     return {"all products": products}
 
 @app.get("/products/{product_id}")
@@ -36,4 +47,13 @@ def update_product(product_id: int, updated_product: Product):
         if product.id == product_id:
             products[index] = updated_product
             return updated_product
+    return None
+
+
+@app.delete("/products/{product_id}")
+def delete_product(product_id: int):
+    for index, product in enumerate(products):
+        if product.id == product_id:
+            deleted_product = products.pop(index)
+            return deleted_product
     return None
