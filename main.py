@@ -7,6 +7,8 @@ load_dotenv()
 
 app = FastAPI()
 
+
+database_models.Base.metadata.create_all(bind=engine)
 @app.get("/")
 async def greet():
     return {"Hello": "World"}
@@ -19,6 +21,12 @@ products = [
 
 @app.get("/products")
 async def get_products():
+    #db connect garne : 
+    db = session()
+    # query garne 
+    db.query()
+
+
     return {"all products": products}
 
 @app.get("/products/{product_id}")
