@@ -10,12 +10,16 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-
+from database import session, engine
+import database_models
+database_models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
 # Mounting  static .html & .css files
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
 
 
 @app.get("/")
@@ -50,8 +54,14 @@ products: List[Product] = [
 
 
 @app.get("/products")
-async def get_products() -> Dict[str, List[Product]]:
-    return {"all products": [p.model_dump() for p in products]}
+async def get_products():
+    #db connect garne : 
+    db = session()
+    # query garne 
+    db.query()
+
+
+    return {"all products": products}
 
 
 @app.get("/products/{product_id}")
